@@ -9,7 +9,7 @@ services:
     startCommand: gunicorn healthcare_ai_backend.wsgi:application
     envVars:
       - key: SECRET_KEY
-        value: "<your-secret-key>"
+        value: "django-insecure--37!l^lm!sa*ir%miahbyr&8#p=04#@w0jwc)xx-kx6nv6f%)d"
       - key: DEBUG
         value: "False"
       - key: DJANGO_SUPERUSER_USERNAME
@@ -19,7 +19,7 @@ services:
       - key: DJANGO_SUPERUSER_PASSWORD
         value: "Admin12345"
       - key: DATABASE_URL
-        value: "<your-postgres-url>"
+        value: "postgresql://healthcare_user:cdi1eU2nGrz48RTjmZL2rT1lswd9peGR@dpg-d2mv980dl3ps73d3fja0-a/healthcare_db_3ajc"
     postDeployCommand: |
       python manage.py migrate --noinput
       python manage.py collectstatic --noinput
