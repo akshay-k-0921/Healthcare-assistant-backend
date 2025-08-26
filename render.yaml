@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: healthcare-backend
+    env: python
+    region: sin  # choose Singapore or closest available
+    branch: main  # your Git branch
+    buildCommand: |
+      pip install -r requirements.txt
+    startCommand: gunicorn healthcare_ai_backend.wsgi:application
+    envVars:
+      - key: SECRET_KEY
+        value: "<your-secret-key>"
+      - key: DEBUG
+        value: "False"
+      - key: DJANGO_SUPERUSER_USERNAME
+        value: "admin"
+      - key: DJANGO_SUPERUSER_EMAIL
+        value: "admin@example.com"
+      - key: DJANGO_SUPERUSER_PASSWORD
+        value: "Admin12345"
+      - key: DATABASE_URL
+        value: "<your-postgres-url>"
+    postDeployCommand: |
+      python manage.py migrate --noinput
+      python manage.py collectstatic --noinput
+      python manage.py createsuperuser --noinput || true
