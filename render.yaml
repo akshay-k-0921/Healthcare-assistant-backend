@@ -2,8 +2,8 @@ services:
   - type: web
     name: healthcare-backend
     env: python
-    region: sin  # choose Singapore or closest available
-    branch: main  # your Git branch
+    region: sin
+    branch: main
     buildCommand: |
       pip install -r requirements.txt
     startCommand: gunicorn healthcare_ai_backend.wsgi:application
@@ -20,7 +20,13 @@ services:
         value: "Admin12345"
       - key: DATABASE_URL
         value: "postgresql://healthcare_user:cdi1eU2nGrz48RTjmZL2rT1lswd9peGR@dpg-d2mv980dl3ps73d3fja0-a/healthcare_db_3ajc"
-    postDeployCommand: |
-      python manage.py migrate --noinput
-      python manage.py collectstatic --noinput
-      python manage.py createsuperuser --noinput || true
+
+  - type: worker
+    name: healthcare-backend-migrations
+    env: python
+    region: sin
+    branch: main
+    buildCommand: |
+      pip install -r requirements.txt
+    startCommand: |
+      python manage.py migrate --noinput && python manage.py collectstatic --noinput
